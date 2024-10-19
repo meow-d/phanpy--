@@ -2,6 +2,9 @@ import { msg, Plural, Select, t, Trans } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Fragment } from 'preact';
 import { memo } from 'preact/compat';
+import { useEffect } from 'preact/hooks';
+
+import metalPipeSoundPath from '../assets/jixaw-metal-pipe-falling-sound.mp3';
 
 import { api } from '../utils/api';
 import { isFiltered } from '../utils/filters';
@@ -359,6 +362,7 @@ function Notification({
   }
 
   let text;
+  let wrenched = false;
   if (type === 'poll') {
     text = contentText[isSelf ? 'poll-self' : isVoted ? 'poll-voted' : 'poll'];
   } else if (contentText[type]) {
@@ -409,6 +413,9 @@ function Notification({
         emoji: notification.emoji,
         emojiURL,
       });
+      if (notification.emoji === '🔧') {
+        wrenched = true;
+      }
     } else {
       text = text({
         account: account ? (
@@ -461,6 +468,13 @@ function Notification({
       return null;
     }
   }
+
+  useEffect(() => {
+    if (wrenched) {
+      var metalPipeSound = new Audio(metalPipeSoundPath);
+      metalPipeSound.play();
+    }
+  }, []);
 
   return (
     <div
