@@ -491,9 +491,11 @@ function Compose({
   const escDownRef = useRef(false);
   useHotkeys(
     'esc',
-    () => {
-      escDownRef.current = true;
-      // This won't be true if this event is already handled and not propagated 🤞
+    (e) => {
+      if (e.key === 'Escape') {
+        escDownRef.current = true;
+        // This won't be true if this event is already handled and not propagated 🤞
+      }
     },
     {
       enabled: !supportsCloseWatcher,
@@ -502,11 +504,13 @@ function Compose({
   );
   useHotkeys(
     'esc',
-    () => {
-      if (!standalone && escDownRef.current && confirmClose()) {
-        onClose();
+    (e) => {
+      if (e.key === 'Escape') {
+        if (!standalone && escDownRef.current && confirmClose()) {
+          onClose();
+        }
+        escDownRef.current = false;
       }
-      escDownRef.current = false;
     },
     {
       enabled: !supportsCloseWatcher,
@@ -1768,7 +1772,7 @@ const Textarea = forwardRef((props, ref) => {
                 <li role="option" data-value="${encodeHTML(shortcode)}">
                 <img src="${encodeHTML(
                   url,
-                )}" width="16" height="16" alt="" loading="lazy" /> 
+                )}" width="16" height="16" alt="" loading="lazy" />
                 ${encodeHTML(shortcode)}
               </li>`;
           });

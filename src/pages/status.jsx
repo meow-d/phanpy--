@@ -601,8 +601,10 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
 
   useHotkeys(
     'esc',
-    () => {
-      location.hash = closeLink;
+    (e) => {
+      if (e.key === 'Escape') {
+        location.hash = closeLink;
+      }
     },
     {
       // If media is open, esc to close media first

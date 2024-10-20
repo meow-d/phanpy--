@@ -80,7 +80,11 @@ function MediaModal({
 
   useHotkeys(
     'esc',
-    onClose,
+    (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    },
     {
       ignoreEventWhen: (e) => {
         const hasModal = !!document.querySelector('#modal-container > *');

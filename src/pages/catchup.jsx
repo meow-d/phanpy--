@@ -796,9 +796,11 @@ function Catchup() {
 
   const escRef = useHotkeys(
     'esc',
-    () => {
-      setSelectedAuthor(null);
-      scrollableRef.current?.focus();
+    (e) => {
+      if (e.key === 'Escape') {
+        setSelectedAuthor(null);
+        scrollableRef.current?.focus();
+      }
     },
     {
       preventDefault: true,

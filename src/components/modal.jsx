@@ -25,10 +25,12 @@ function Modal({ children, onClose, onClick, class: className, minimized }) {
   const supportsCloseWatcher = window.CloseWatcher;
   const escRef = useHotkeys(
     'esc',
-    () => {
-      setTimeout(() => {
-        onClose?.();
-      }, 0);
+    (e) => {
+      if (e.key === 'Escape') {
+        setTimeout(() => {
+          onClose?.();
+        }, 0);
+      }
     },
     {
       enabled: !supportsCloseWatcher && !!onClose,

@@ -37,8 +37,10 @@ export default memo(function SearchCommand({ onClose = () => {} }) {
   useHotkeys(
     'esc',
     (e) => {
-      searchFormRef.current?.blur?.();
-      closeSearch();
+      if (e.key === 'Escape') {
+        searchFormRef.current?.blur?.();
+        closeSearch();
+      }
     },
     {
       enabled: showSearch,
